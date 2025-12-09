@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.32">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Lalangui Peña, Ortiz Zavaleta, Torres Salaza, Coronel Balcazar, Maicelo Villanueva, santillan Gil">
+
+<title>Fenotipado digital de hojas de palto (persea Americana) mediante análisis de imágenes con Digimizer: fundamentos, aplicación comparativa y perspectivas hacia la automatización con IA</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="index_files/libs/clipboard/clipboard.min.js"></script>
+<script src="index_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="index_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="index_files/libs/quarto-html/popper.min.js"></script>
+<script src="index_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="index_files/libs/quarto-html/anchor.min.js"></script>
+<link href="index_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="index_files/libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="index_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="index_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="index_files/libs/bootstrap/bootstrap-bb462d781dde1847d9e3ccf7736099dd.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<style>html{ scroll-behavior: smooth; }</style>
+<style>
+
+      .quarto-title-block .quarto-title-banner {
+        background: untrm1.png;
+      }
+</style>
+
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="quarto-light">
+
+<header id="title-block-header" class="quarto-title-block default toc-left page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Fenotipado digital de hojas de palto (persea Americana) mediante análisis de imágenes con Digimizer: fundamentos, aplicación comparativa y perspectivas hacia la automatización con IA</h1>
+                      </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Lalangui Peña, Ortiz Zavaleta, Torres Salaza, Coronel Balcazar, Maicelo Villanueva, santillan Gil </p>
+            </div>
+    </div>
+      
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="page-columns page-rows-contents page-layout-article toc-left">
+<div id="quarto-sidebar-toc-left" class="sidebar toc-left">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#introduccion" id="toc-introduccion" class="nav-link active" data-scroll-target="#introduccion"><span class="header-section-number">1</span> INTRODUCCION</a></li>
+  <li><a href="#desarrollo" id="toc-desarrollo" class="nav-link" data-scroll-target="#desarrollo"><span class="header-section-number">2</span> DESARROLLO</a>
+  <ul class="collapse">
+  <li><a href="#marco-conceptual-del-fenotipado-digital" id="toc-marco-conceptual-del-fenotipado-digital" class="nav-link" data-scroll-target="#marco-conceptual-del-fenotipado-digital"><span class="header-section-number">2.1</span> Marco conceptual del fenotipado digital</a></li>
+  <li><a href="#metodología-empleada-con-digimizer" id="toc-metodología-empleada-con-digimizer" class="nav-link" data-scroll-target="#metodología-empleada-con-digimizer"><span class="header-section-number">2.2</span> Metodología empleada con Digimizer</a></li>
+  </ul></li>
+  <li><a href="#resultados" id="toc-resultados" class="nav-link" data-scroll-target="#resultados"><span class="header-section-number">3</span> RESULTADOS</a>
+  <ul class="collapse">
+  <li><a href="#comparación-entre-el-proceso-semiautomatizado-en-digimizer-y-la-anotación-manual-en-label-studio" id="toc-comparación-entre-el-proceso-semiautomatizado-en-digimizer-y-la-anotación-manual-en-label-studio" class="nav-link" data-scroll-target="#comparación-entre-el-proceso-semiautomatizado-en-digimizer-y-la-anotación-manual-en-label-studio"><span class="header-section-number">3.1</span> Comparación entre el proceso semiautomatizado en Digimizer y la anotación manual en Label Studio</a></li>
+  </ul></li>
+  <li><a href="#conclusiones" id="toc-conclusiones" class="nav-link" data-scroll-target="#conclusiones"><span class="header-section-number">4</span> CONCLUSIONES</a></li>
+  <li><a href="#referencias" id="toc-referencias" class="nav-link" data-scroll-target="#referencias"><span class="header-section-number">5</span> REFERENCIAS</a></li>
+  </ul>
+</nav>
+</div>
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+</div>
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+
+<section id="introduccion" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> INTRODUCCION</h1>
+<p>El fenotipado vegetal basado en imágenes ha adquirido relevancia en la investigación agronómica y fisiológica debido a su potencial para describir rasgos morfológicos de manera objetiva, estandarizada y reproducible. En cultivos como aguacate, frijol y quinua, la caracterización foliar constituye una etapa fundamental para comprender el crecimiento, evaluar la respuesta a condiciones ambientales y estudiar la variabilidad genética. Sin embargo, los métodos manuales resultan laboriosos, presentan sesgo observacional y limitan el análisis de grandes volúmenes de muestras. En este contexto, la incorporación de software especializado para la medición digital constituye un avance metodológico que favorece la cuantificación rigurosa de variables como área foliar, perímetro, longitud y ancho, reduciendo la dependencia de instrumentos manuales y acelerando la toma de datos. El presente documento desarrolla el flujo de trabajo del software Digimizer aplicado a fenotipado foliar y establece una comparación metodológica con Label Studio, herramienta utilizada previamente para anotación manual de hojas de palta.</p>
+<p><img src="images/images01-04.jpg" class="img-fluid" width="474"></p>
+</section>
+<section id="desarrollo" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> DESARROLLO</h1>
+<section id="marco-conceptual-del-fenotipado-digital" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="marco-conceptual-del-fenotipado-digital"><span class="header-section-number">2.1</span> Marco conceptual del fenotipado digital</h2>
+<p>El fenotipado digital corresponde a un conjunto de procedimientos destinados a extraer información cuantitativa a partir de imágenes adquiridas mediante escáner o cámara fotográfica. Su fundamento metodológico se basa en la segmentación de objetos biológicos y la medición automática de parámetros geométricos mediante algoritmos de procesamiento digital. La precisión del procedimiento depende tanto de la calidad de la imagen como de la estandarización en la adquisición, binarización y calibración de las unidades de medida.</p>
+</section>
+<section id="metodología-empleada-con-digimizer" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="metodología-empleada-con-digimizer"><span class="header-section-number">2.2</span> Metodología empleada con Digimizer</h2>
+<ol type="1">
+<li><p>Familiarización con el programa</p>
+<p>En primer lugar, me familiaricé con la interfaz de Digimizer con el propósito de reconocer las herramientas principales y comprender la lógica de funcionamiento del software. Esta fase inicial me permitió identificar dónde se ubican las opciones de calibración, cómo se gestionan las imágenes y qué parámetros intervienen en la segmentación automática de la hoja. Consideré esta etapa como un paso necesario para asegurar que, durante el procedimiento de análisis, las configuraciones aplicadas correspondieran adecuadamente a los objetivos del fenotipado y facilitaran la obtención de mediciones morfológicas precisas.</p></li>
+<li><p>Selección de la imagen</p>
+<p>Una vez comprendida la interfaz, se procedio a seleccionar la imagen correspondiente a la hoja previamente escaneada, cabe mencionar que las imagenes empleadas, fueron las mismas que se emplearon en el programa Label studio. En esta etapa se verifico que la imagen presentara un fondo uniforme y una adecuada resolución, dado que estas condiciones favorecen la segmentación automática posterior.</p>
+<p><img src="images/1-01.jpeg" class="img-fluid" width="493"></p></li>
+<li><p>Selección de la escala en centímetros (cm)</p>
+<p>En esta etapa se traso una línea sobre un objeto de referencia cuyo tamaño real conocía (en este caso, una moneda) con el fin de establecer la relación entre la distancia en píxeles y las unidades métricas. Tal como se observa en la imagen, Digimizer mostró una ventana emergente denominada “Unit”, en la cual ingresé el valor real correspondiente a la longitud marcada (2.55 centímetros). Al seleccionar esta opción y confirmar con “OK”, el programa convirtió automáticamente las mediciones internas desde píxeles hacia centímetros, de modo que las variables morfológicas obtenidas posteriormente (área, perímetro, longitud y ancho) quedaran expresadas en unidades físicas reales.</p>
+<p><img src="images/2-02.jpeg" class="img-fluid" width="504"></p></li>
+<li><p>Selección de los datos a mostrar</p>
+<p>En este paso se accedio al menú de configuración de columnas para indicar qué variables morfológicas se deseaba visualizar en la lista de mediciones, tal como se aprecia en la ventana emergente mostrada por el programa, Digimizer permite activar o desactivar distintos parámetros, entre ellos área, perímetro, longitud, ancho, ángulo y otras variables geométricas. Seleccioné únicamente aquellas medidas relevantes para el fenotipado foliar, con el fin de obtener una tabla de resultados más organizada y enfocada en los rasgos que se pretendían analizar. Consideré esta selección como un paso metodológico pertinente, ya que evita la saturación de información y facilita la interpretación posterior de los datos exportados para el análisis estadístico.</p>
+<p><img src="images/3-01.jpeg" class="img-fluid" width="523"></p></li>
+<li><p>Binarización de la imagen</p>
+<p>Posteriormente, seleccioné la opción “Binarization” ubicada en la pestaña “Binary”, con el propósito de transformar la imagen en un mapa binario y aislar la lámina foliar del fondo. Al ejecutar esta función, el programa analiza los valores de intensidad de los píxeles y genera una representación en la que la hoja se muestra coloreada mientras el fondo permanece neutral. Se considero esta etapa indispensable para obtener un contorno definido, ya que la binarización permite diferenciar de manera automática los límites de la hoja, facilitando la medición de variables morfológicas como área, perímetro y dimensiones.</p>
+<p><img src="images/4-01.jpeg" class="img-fluid" width="525"></p></li>
+<li><p>Ajuste del umbral para obtener la representación completa de la hoja</p>
+<p>En esta etapa ajusté el valor del umbral dentro de la ventana de histograma con el propósito de asegurar que la binarización incluyera la totalidad de la lámina foliar. Tal como se observa en la imagen, la hoja aparece coloreada en rojo, mientras que el fondo queda excluido. Para lograrlo, modifiqué el valor del “Upper threshold” moviendo la línea vertical hasta que toda la superficie foliar se mostrara completamente cubierta, evitando que zonas de la hoja quedaran sin detectar o que el fondo fuera incluido por error. Consideré este ajuste indispensable para obtener una segmentación precisa que garantizara la correcta medición de área, perímetro y dimensiones en los pasos posteriores.</p>
+<p><img src="images/5-01.jpeg" class="img-fluid" width="530"></p></li>
+<li><p>Análisis de la hoja</p>
+<p>Finalmente, se selecciono la opción “Analyze Objects” dentro del menú “Binary” con el objetivo de procesar la imagen binarizada y obtener las variables morfológicas correspondientes a la hoja. Al ejecutar esta función, Digimizer identificó la hoja como un objeto independiente y calculó automáticamente parámetros como área, perímetro, longitud máxima y demás medidas previamente seleccionadas. Consideré este procedimiento como el cierre operativo del análisis, ya que a partir de este momento la hoja quedó cuantificada matemáticamente y los valores estuvieron disponibles para su exportación y posterior interpretación estadística.</p>
+<p><img src="images/6-01.jpeg" class="img-fluid" width="546"></p></li>
+<li><p>Obtención de las variables morfológicas</p>
+<p>Una vez ejecutado el análisis, en la sección derecha de la pantalla se generó automáticamente la lista de mediciones correspondientes a cada objeto identificado por el software. Tal como se aprecia en la imagen, Digimizer calculó un conjunto de parámetros morfológicos, entre ellos el área foliar, el perímetro, la longitud máxima y el ancho de la hoja. Estos valores, expresados en centímetros gracias a la calibración previa, pueden ser exportados o registrados para su comparación posterior entre muestras o tratamientos experimentales.</p>
+<p><img src="images/7-01.jpeg" class="img-fluid" width="546"></p></li>
+</ol>
+</section>
+</section>
+<section id="resultados" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> RESULTADOS</h1>
+<p>Luego de aplicar el procedimiento completo en Digimizer, obtuve de manera automática las variables morfológicas correspondientes a cada hoja procesada. En el caso mostrado, el software registró valores de área foliar expresados en centímetros, así como medidas de longitud y ancho determinadas a partir de la segmentación binaria de la imagen. Asimismo, se consignó el perímetro de la lámina foliar, lo cual permitió disponer de un conjunto de datos cuantitativos suficiente para caracterizar la forma de la hoja analizada.</p>
+<p>Los valores calculados se visualizaron inmediatamente en la lista de mediciones generada por el programa y, posteriormente, estuvieron disponibles para su exportación.</p>
+<p>Enlace del documento drive, en la cual se observa las medidad de cada hoja, optenidas mediante el programa Digimizer:</p>
+<p><a href="https://drive.google.com/drive/folders/13HehPJEef9BlZpH8GLEnNRFPhdhSdEiP?usp=sharing" class="uri">https://drive.google.com/drive/folders/13HehPJEef9BlZpH8GLEnNRFPhdhSdEiP?usp=sharing</a></p>
+<section id="comparación-entre-el-proceso-semiautomatizado-en-digimizer-y-la-anotación-manual-en-label-studio" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="comparación-entre-el-proceso-semiautomatizado-en-digimizer-y-la-anotación-manual-en-label-studio"><span class="header-section-number">3.1</span> Comparación entre el proceso semiautomatizado en Digimizer y la anotación manual en Label Studio</h2>
+<p>Una vez obtenido el conjunto de variables morfológicas a partir del procedimiento semiautomatizado aplicado en Digimizer, se procedio a comparar esta metodología con la experiencia previa que desarrollé utilizando Label Studio para la anotación manual de hojas de palta. En el caso de Label Studio, el delineado del contorno de la hoja se realizaba mediante herramientas manuales, lo cual implicó una participación directa y continua del usuario en la definición de los límites foliares. Esta modalidad resultó adecuada para comprender visualmente la anatomía de cada hoja; sin embargo, requirió mayor inversión de tiempo y mayor atención al trazar los bordes, especialmente cuando se procesaron varias imágenes consecutivas.</p>
+<p>En cambio, Digimizer permitió segmentar la hoja mediante binarización y recuperar automáticamente mediciones como el área, la longitud y el ancho, reduciendo la intervención manual y estandarizando el cálculo de los parámetros. En este sentido, considero que Digimizer constituye un avance metodológico respecto a mi práctica con Label Studio, ya que facilita la cuantificación objetiva y disminuye la posibilidad de variación entre mediciones.</p>
+<p>No obstante, estimo pertinente aclarar que Label Studio sigue siendo útil cuando se requiere construir conjuntos de datos etiquetados para entrenamiento de modelos de visión por computadora, ya que su finalidad principal es la anotación manual y la generación de información para sistemas de IA. Por su parte, Digimizer se orienta a la medición morfométrica y constituye una herramienta más eficiente cuando el objetivo es obtener parámetros cuantitativos de manera directa.</p>
+</section>
+</section>
+<section id="conclusiones" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> CONCLUSIONES</h1>
+<p>La aplicación del software Digimizer permitió cuantificar de manera precisa y reproducible los rasgos morfológicos fundamentales de la hoja analizada, tales como área, longitud y ancho, mediante un proceso semiautomatizado basado en binarización y segmentación digital. Ademas considero que esta experiencia constituyó un avance metodológico respecto al procedimiento manual previamente realizado con Label Studio, en la medida en que redujo la intervención directa durante la medición y proporcionó resultados estandarizados expresados en unidades reales.</p>
+<p>De manera complementaria, reconozco que ambas herramientas cumplen funciones diferenciadas dentro del fenotipado digital: mientras Label Studio resulta adecuada para la anotación manual y la generación de datos destinados al entrenamiento de modelos de visión por computadora, Digimizer se orienta al análisis morfométrico cuantitativo con menor carga operativa. En este sentido, valoro que el uso sucesivo de ambos programas haya permitido entender primero la lógica de la anotación manual y, posteriormente, la transición hacia procedimientos más automatizados.</p>
+<p>Finalmente, considero que el fenotipado foliar digital constituye una etapa inicial dentro de un escenario más amplio hacia tecnologías basadas en inteligencia artificial, cuyo objetivo final es automatizar el análisis de imágenes, incrementar la escala del fenotipado vegetal y ofrecer herramientas más eficientes para la investigación agronómica contemporánea.</p>
+</section>
+<section id="referencias" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> REFERENCIAS</h1>
+<p>MedCalc Software Ltd.&nbsp;(2025). Digimizer image analysis software (Software). Recuperado de https://www.digimizer.com/</p>
+<p>Sauceda-Acosta, C. P., López-Hernández, J. F., Irais-Callejas, N., &amp; Acosta-Gallegos, J. A. (2017). MACF-IJ, método automatizado para medir color y área foliar usando análisis de imágenes digitales. Revista Fitotecnia Mexicana, 40(4), 409–417. Recuperado de https://www.scielo.org.mx/</p>
+<p>Yang, W., et al.&nbsp;(2023). A method of measuring plant leaves phenotypic parameters based on scanner and ImageJ. Journal of Beijing Forestry University, 45(6), 17–28. https://doi.org/10.12190/j.issn.2096-1197.2022.06.17</p>
+<p>Nguyen, C. V., Slaughter, D. C., &amp; Barrett, D. M. (2017). 3D scanning system for automatic high-resolution plant phenotyping. Frontiers in Plant Science, 8, 2007. https://doi.org/10.3389/fpls.2017.02007</p>
+<p>Li, L., Zhang, Q., &amp; Huang, D. (2014). A review of imaging techniques for plant phenotyping. Sensors, 14(11), 20078–20111. https://doi.org/10.3390/s141120078</p>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+<script src="index_files/libs/quarto-html/zenscroll-min.js"></script>
+</body></html>
