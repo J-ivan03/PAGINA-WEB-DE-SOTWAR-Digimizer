@@ -17,7 +17,7 @@ execute:
   message: false
 ---
 
-# Introducción
+# INTRODUCCION
 
 El fenotipado vegetal basado en imágenes ha adquirido relevancia en la investigación agronómica y fisiológica debido a su potencial para describir rasgos morfológicos de manera objetiva, estandarizada y reproducible. En cultivos como aguacate, frijol y quinua, la caracterización foliar constituye una etapa fundamental para comprender el crecimiento, evaluar la respuesta a condiciones ambientales y estudiar la variabilidad genética. Sin embargo, los métodos manuales resultan laboriosos, presentan sesgo observacional y limitan el análisis de grandes volúmenes de muestras. En este contexto, la incorporación de software especializado para la medición digital constituye un avance metodológico que favorece la cuantificación rigurosa de variables como área foliar, perímetro, longitud y ancho, reduciendo la dependencia de instrumentos manuales y acelerando la toma de datos. El presente documento desarrolla el flujo de trabajo del software Digimizer aplicado a fenotipado foliar y establece una comparación metodológica con Label Studio, herramienta utilizada previamente para anotación manual de hojas de palta.
 
@@ -77,7 +77,7 @@ El fenotipado digital corresponde a un conjunto de procedimientos destinados a e
 
     ![](images/7-01.jpeg){width="546"}
 
-# Resultados
+# RESULTADOS
 
 Luego de aplicar el procedimiento completo en Digimizer, obtuve de manera automática las variables morfológicas correspondientes a cada hoja procesada. En el caso mostrado, el software registró valores de área foliar expresados en centímetros, así como medidas de longitud y ancho determinadas a partir de la segmentación binaria de la imagen. Asimismo, se consignó el perímetro de la lámina foliar, lo cual permitió disponer de un conjunto de datos cuantitativos suficiente para caracterizar la forma de la hoja analizada.
 
