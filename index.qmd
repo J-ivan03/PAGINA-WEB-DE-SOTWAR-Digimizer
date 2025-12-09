@@ -7,7 +7,7 @@ format:
     toc-location: left
     theme: default
     number-sections: true
-    title-block-banner: "untrm1.png"
+    title-block-banner: "images/fica.jpg"
     css: styles.css
     smooth-scroll: true
 editor: visual
